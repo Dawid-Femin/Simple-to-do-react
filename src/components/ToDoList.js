@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ToDoForm from './ToDoForm';
+import ToDo from './ToDo';
 
 function ToDoList() {
   const [tasks, setTasks] = useState([]);
@@ -10,13 +11,27 @@ function ToDoList() {
       }
       const newTasks = [task, ...tasks];
       setTasks(newTasks);
-      console.log(...tasks);
+  }
+
+  const removeTask = id => {
+    const removeArr = [...tasks].filter(task => task.id !== id)
+    setTasks(removeArr);
+  }
+
+  const completeTask = id => {
+      let updatedTasks = tasks.map(task => {
+          if(task.id === id) {
+              task.isComplete = !task.isComplete
+          }
+          return task;
+      })
   }
   
     return (
     <div>
         <h1>Add some tasks!</h1>
         <ToDoForm onSubmit={addTask} />
+        <ToDo tasks={tasks} completeTask={completeTask} removeTask={removeTask}/>
     </div>
   )
 }
